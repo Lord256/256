@@ -5,7 +5,7 @@ const path = require('path');
 const sessionFolder = path.join(__dirname, 'my-sessions');
 
 // Definindo o caminho para o Chromium no Heroku
-const chromePath = process.env.CHROME_BIN || "/usr/bin/google-chrome-stable"; // Caminho padrão do Chromium no Heroku
+const chromePath = process.env.CHROME_BIN || "/usr/bin/google-chrome-stable"; // Caminho do Chromium no Heroku
 
 venom
   .create('session-name', undefined, undefined, {

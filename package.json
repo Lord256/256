@@ -1,0 +1,17 @@
+{
+  "name": "bot-lion",
+  "version": "1.0.0",
+  "description": "Bot para a Editora Lion",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "venom-bot": "^4.0.0"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -4,14 +4,14 @@ const path = require('path');
 // Definindo o caminho da pasta de sessão
 const sessionFolder = path.join(__dirname, 'my-sessions');
 
-// Defina o caminho para o Chrome
-const chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"; // Caminho para o seu Chrome
+// Definindo o caminho para o Chromium no Heroku
+const chromePath = process.env.CHROME_BIN || "/usr/bin/google-chrome-stable"; // Caminho padrão do Chromium no Heroku
 
 venom
   .create('session-name', undefined, undefined, {
     folderName: sessionFolder,
     executablePath: chromePath,
-    headless: true,
+    headless: true, // Modo headless
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',

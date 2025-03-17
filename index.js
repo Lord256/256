@@ -1,32 +1,32 @@
 const venom = require('venom-bot');
 const path = require('path');
 
-// Definindo o caminho da pasta de sessão
-const sessionFolder = path.join(__dirname, 'my-sessions');
-
-// Definindo o caminho para o Chromium no Heroku
-const chromePath = process.env.CHROME_BIN || "/usr/bin/google-chrome-stable"; // Caminho do Chromium no Heroku
+const sessionFolder = path.join(__dirname, 'sessions');
+const chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 
 venom
   .create('session-name', undefined, undefined, {
     folderName: sessionFolder,
     executablePath: chromePath,
-    headless: true, // Modo headless
+    headless: false,  // Sem headless para ver o que acontece com o navegador
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
-      '--headless',
       '--disable-gpu',
       '--window-size=1920x1080',
     ],
   })
-  .then((client) => start(client))
+  .then((client) => {
+    start(client);
+    console.log("O navegador está aberto, aguardando interações...");
+  })
   .catch((error) => console.log(error));
 
 function start(client) {
   client.onMessage((message) => {
     // Saudação do cliente
     const saudacoes = ['oi', 'oi', 'Olá', 'Ola', 'ola', 'olá', 'Rafael', 'Rafa', 'Paulo', 'Bom dia', 'Boa tarde', 'Boa noite'];
+    
     if (saudacoes.includes(message.body.trim())) {
       client.sendText(message.from,
         "Seja bem-vindo! Sou o assistente virtual 🤖 do Rafael, consultor da Editora Lion. Escolha uma das opções abaixo para seguir o atendimento:\n\n" +

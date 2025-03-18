@@ -1,48 +1,52 @@
 const venom = require('venom-bot');
-const path = require('path');
-
-const sessionFolder = path.join(__dirname, 'sessions');
-const chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 
 venom
-  .create('session-name', undefined, undefined, {
-    folderName: sessionFolder,
-    executablePath: chromePath,
-    headless: false,  // Sem headless para ver o que acontece com o navegador
-    args: [
+  .create({
+    session: 'botlion',
+    headless: true,  // Necessário para servidores como Railway
+    useChrome: false,  // Usa Chromium ao invés de Chrome
+    disableSpins: true,
+    browserArgs: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-gpu',
-      '--window-size=1920x1080',
-    ],
+      '--disable-dev-shm-usage',
+      '--disable-extensions',
+      '--disable-background-timer-throttling',
+      '--disable-backgrounding-occluded-windows',
+      '--disable-breakpad',
+      '--disable-component-extensions-with-background-pages',
+      '--disable-features=TranslateUI,BlinkGenPropertyTrees',
+      '--disable-ipc-flooding-protection',
+      '--disable-renderer-backgrounding',
+      '--enable-features=NetworkService,NetworkServiceInProcess',
+      '--force-color-profile=srgb',
+      '--hide-scrollbars',
+      '--metrics-recording-only',
+      '--mute-audio',
+      '--no-first-run',
+      '--safebrowsing-disable-auto-update',
+      '--enable-automation'
+    ]
   })
   .then((client) => {
     start(client);
-    console.log("O navegador está aberto, aguardando interações...");
+    console.log('Bot iniciado com sucesso!');
   })
   .catch((error) => console.log(error));
 
 function start(client) {
   client.onMessage((message) => {
-    // Saudação do cliente
-    const saudacoes = ['oi', 'oi', 'Olá', 'Ola', 'ola', 'olá', 'Rafael', 'Rafa', 'Paulo', 'Bom dia', 'Boa tarde', 'Boa noite'];
+    const saudacoes = ['oi', 'olá', 'ola', 'bom dia', 'boa tarde', 'boa noite'];
     
-    if (saudacoes.includes(message.body.trim())) {
+    if (saudacoes.includes(message.body.toLowerCase().trim())) {
       client.sendText(message.from,
-        "Seja bem-vindo! Sou o assistente virtual 🤖 do Rafael, consultor da Editora Lion. Escolha uma das opções abaixo para seguir o atendimento:\n\n" +
-        "1️⃣ Ver catálogo\n" +
-        "2️⃣ Falar com Rafael\n" +
-        "Digite o número da opção desejada."
-      );
-    } else if (message.body.toLowerCase() === 'menu') {
-      client.sendText(message.from,
-        "Seja bem-vindo! Sou o assistente virtual 🤖 do Rafael, consultor da Editora Lion. Escolha uma das opções abaixo para seguir o atendimento:\n\n" +
+        "Seja bem-vindo! Sou o assistente virtual 🤖 do Rafael, consultor da Editora Lion. Escolha uma das opções abaixo:\n\n" +
         "1️⃣ Ver catálogo\n" +
         "2️⃣ Falar com Rafael\n" +
         "Digite o número da opção desejada."
       );
     } else if (message.body === '1') {
-      // Enviando o catálogo
       client.sendText(message.from, "📚 Aqui está nosso catálogo: https://drive.google.com/drive/folders/1NYXeo1LEXhXY8WwCnacV99H73AIQhH_4")
         .then(() => {
           client.sendText(message.from, "Você pode fazer seu pedido diretamente através deste link: https://docs.google.com/spreadsheets/d/1HSyCu_NXYo6i6ssYVXu0IlKprF1fHPj1/edit?gid=787904471#gid=787904471");
